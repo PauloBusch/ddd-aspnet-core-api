@@ -4,8 +4,8 @@ namespace Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; protected set; }
-        public DateTime CreateAt { get; protected set; }
-        public DateTime UpdateAt { get; protected set; }
+        public Guid Id { get; set; }
+        public DateTime CreateAt { get; set; }
+        public DateTime UpdateAt { get; set; }
     }
 }
