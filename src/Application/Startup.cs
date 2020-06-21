@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CrossCutting.injection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,8 @@ namespace Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            ConfigureService.ConfigureDependencyServices(services);
+            ConfigureRepository.ConfigureDependencyRepositories(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
