@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +34,7 @@ namespace Infra.Repository
             return await _dataSet.ToArrayAsync();
         }
 
-        public async Task InsertAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             if (entity.Id == Guid.Empty) entity.Id = Guid.NewGuid();
             entity.CreateAt = DateTime.UtcNow;
