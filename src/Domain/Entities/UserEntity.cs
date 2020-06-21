@@ -2,7 +2,7 @@ namespace Domain.Entities
 {
     public class UserEntity : BaseEntity
     {
-        public string Name { get; private set; }
-        public string Email { get; private set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
     }
 }
