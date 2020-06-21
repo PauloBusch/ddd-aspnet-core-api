@@ -8,7 +8,9 @@ namespace Infra.Context
     {
         public DbSet<UserEntity> Users { get; set; }
 
-        public DDDContext(DbContextOptions<DDDContext> options) : base(options) {}
+        public DDDContext(DbContextOptions<DDDContext> options) : base(options) {
+            Database.Migrate();
+        }
     
         protected override void OnModelCreating(ModelBuilder builder) {
             builder.ApplyConfiguration(new UserMap());
