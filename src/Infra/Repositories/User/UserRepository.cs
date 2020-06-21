@@ -14,7 +14,7 @@ namespace Infra.Repositories.User
 
         public async Task<UserEntity> FindByEmailAsync(string email)
         {
-            return await _context.Users.FirstAsync(u => u.Email == email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }
