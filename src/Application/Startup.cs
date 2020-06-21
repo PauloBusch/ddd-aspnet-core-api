@@ -29,6 +29,7 @@ namespace Application
             ConfigureDatabase.ConfigureDependencyDatabases(services);
             ConfigureService.ConfigureDependencyServices(services);
             ConfigureRepository.ConfigureDependencyRepositories(services);
+            ConfigureSecurity.ConfigureDependencySecurity(services, Configuration);
 
             services.AddSwaggerGen(c =>
             {

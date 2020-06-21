@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
+using Domain.Dtos.User;
 using Domain.Entities;
 
 namespace Domain.Interfaces.Services.User
 {
     public interface IAuthService
     {
-        Task<object> FindByEmail(UserEntity user);
+        Task<object> LoginAsync(LoginDto login);
     }
 }
