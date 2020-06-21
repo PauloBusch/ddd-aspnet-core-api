@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrossCutting.injection;
+using Domain.Security;
 using Infra.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +32,31 @@ namespace Application
             ConfigureDatabase.ConfigureDependencyDatabases(services);
             ConfigureService.ConfigureDependencyServices(services);
             ConfigureRepository.ConfigureDependencyRepositories(services);
-            ConfigureSecurity.ConfigureDependencySecurity(services, Configuration);
+
+            var signingConfiguration = new SigningConfiguration();         
+            var tokenConfiguration = Configuration.GetSection("Token").Get<TokenConfiguration>();
+            services.AddSingleton(signingConfiguration);
+            services.AddSingleton(tokenConfiguration);
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                var validation = options.TokenValidationParameters;
+                validation.IssuerSigningKey = signingConfiguration.Key;
+                validation.ValidAudience = tokenConfiguration.Audience;
+                validation.ValidIssuer = tokenConfiguration.Issuer;
+                validation.ValidateIssuerSigningKey = true;
+                validation.ValidateLifetime = true;
+                validation.ClockSkew = TimeSpan.Zero;
+            });
+
+            services.AddAuthorization(options => {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
 
             services.AddSwaggerGen(c =>
             {

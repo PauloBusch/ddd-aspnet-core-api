@@ -4,9 +4,11 @@ using Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Application.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/users")]
     public class UsersController : ControllerBase
