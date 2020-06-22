@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Domain.Dtos.User;
+using Domain.ViewModels.User;
 
 namespace Application.Controllers
 {
@@ -20,25 +22,25 @@ namespace Application.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserEntity>> ListAsync() {
+        public async Task<IEnumerable<UserListViewModel>> ListAsync() {
             return await _userService.ListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<UserEntity> GetAsync(Guid id) {
+        public async Task<UserDetailViewModel> GetAsync(Guid id) {
             return await _userService.GetAsync(id);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task CreateAsync([FromBody] UserEntity user) {
-            await _userService.CreateAsync(user);
+        public async Task CreateAsync([FromBody] UserDto dto) {
+            await _userService.CreateAsync(dto);
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateAsync(Guid id, [FromBody] UserEntity user) {
-            user.Id = id;
-            await _userService.UpdateAsync(user);
+        public async Task UpdateAsync(Guid id, [FromBody] UserDto dto) {
+            dto.Id = id;
+            await _userService.UpdateAsync(dto);
         }
 
         [HttpDelete("{id}")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrossCutting.injection;
+using CrossCutting.Mapping;
 using Domain.Security;
 using Infra.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,7 @@ namespace Application
             ConfigureDatabase.ConfigureDependencyDatabases(services);
             ConfigureService.ConfigureDependencyServices(services);
             ConfigureRepository.ConfigureDependencyRepositories(services);
+            ConfigureMapping.ConfigureDependencyMapping(services);
 
             var signingConfiguration = new SigningConfiguration();         
             var tokenConfiguration = Configuration.GetSection("Token").Get<TokenConfiguration>();

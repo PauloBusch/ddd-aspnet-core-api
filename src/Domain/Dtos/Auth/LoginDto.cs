@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Dtos.User
+namespace Domain.Dtos.Auth
 {
     public class LoginDto
     {
@@ -8,7 +8,5 @@ namespace Domain.Dtos.User
         [EmailAddress(ErrorMessage = "Email is invalid")]
         [StringLength(100, ErrorMessage = "Email require {1} maxmium characters")]
         public string Email { get; set; }
-
-        public string Password { get; set; }
     }
 }

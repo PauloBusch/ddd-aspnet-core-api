@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Domain.Dtos.User;
-using Domain.Entities;
+using Domain.Dtos.Auth;
 using Domain.Interfaces.Services.User;
+using Domain.ViewModels.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -16,7 +16,7 @@ namespace Application.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<object> LoginAsync([FromBody] LoginDto login) {
+        public async Task<AuthResult> LoginAsync([FromBody] LoginDto login) {
             return await _authService.LoginAsync(login);
         }
     }

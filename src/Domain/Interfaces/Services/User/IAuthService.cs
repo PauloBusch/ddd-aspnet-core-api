@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using Domain.Dtos.User;
-using Domain.Entities;
+using Domain.Dtos.Auth;
+using Domain.ViewModels.Auth;
 
 namespace Domain.Interfaces.Services.User
 {
     public interface IAuthService
     {
-        Task<object> LoginAsync(LoginDto login);
+        Task<AuthResult> LoginAsync(LoginDto login);
     }
 }

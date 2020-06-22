@@ -11,6 +11,8 @@ using Domain.Security;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using Domain.ViewModels.Auth;
+using Domain.Dtos.Auth;
 
 namespace Service.Services.User
 {
@@ -30,11 +32,11 @@ namespace Service.Services.User
             _tokenConfiguration = tokenConfiguration;
         }
 
-        public async Task<object> LoginAsync(LoginDto login)
+        public async Task<AuthResult> LoginAsync(LoginDto login)
         {
-            if (login == null || string.IsNullOrWhiteSpace(login.Email)) return new { Authenticated = false, Message = "Login fail" };
+            if (login == null || string.IsNullOrWhiteSpace(login.Email)) return new AuthResult { Authenticated = false, Message = "Login fail" };
             var user = await _userRepository.FindByEmailAsync(login.Email);
-            if (user == null) return new { Authenticated = false, Message = "Login fail" };
+            if (user == null) return new AuthResult { Authenticated = false, Message = "Login fail" };
             var identity = new ClaimsIdentity(
                 new GenericIdentity(user.Email),
                 new [] {
@@ -54,9 +56,9 @@ namespace Service.Services.User
                 Expires = expire
             });
             var tokenStr = handler.WriteToken(securityToken);
-            return new {
+            return new AuthResult{
                 Authenticated = true,
-                Created = now,
+                Creation = now,
                 Expiration = expire,
                 AccessToken = tokenStr,
                 UserName = user.Name,
