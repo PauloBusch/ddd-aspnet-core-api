@@ -58,9 +58,26 @@ namespace Application
                     .Build();
             });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                    In = ParameterLocation.Header,
+                    Description = "Token jwt",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                config.AddSecurityRequirement(new OpenApiSecurityRequirement{ 
+                    {
+                        new OpenApiSecurityScheme{
+                            Reference = new OpenApiReference{
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new string[0]
+                    }
+                });
             });
 
             services.AddControllers();

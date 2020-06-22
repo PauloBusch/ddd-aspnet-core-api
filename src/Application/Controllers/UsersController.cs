@@ -30,6 +30,7 @@ namespace Application.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task CreateAsync([FromBody] UserEntity user) {
             await _userService.CreateAsync(user);
         }
